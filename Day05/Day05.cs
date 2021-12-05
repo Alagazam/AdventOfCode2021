@@ -26,20 +26,25 @@ namespace AoC2020
 
         public static Int64 Day05a(string[] input)
         {
+            return Calc(input, false);
+        }
+
+        private static long Calc(string[] input, bool doDiag)
+        {
             var lines = new List<Line>();
             var xmax = 0;
             var ymax = 0;
-            foreach(var line in input)
+            foreach (var line in input)
             {
-                var l= new Line(line);
+                var l = new Line(line);
                 lines.Add(l);
                 if (l.x0 > xmax) xmax = l.x0;
                 if (l.y0 > ymax) ymax = l.y0;
                 if (l.x1 > xmax) xmax = l.x1;
                 if (l.y1 > ymax) ymax = l.y1;
             }
-            var grid = new int[xmax+1, ymax+1];
-            foreach(var line in lines)
+            var grid = new int[xmax + 1, ymax + 1];
+            foreach (var line in lines)
             {
                 if (line.x0 == line.x1)
                 {
@@ -47,22 +52,34 @@ namespace AoC2020
                     for (var y = line.y0; y != line.y1 + s; y += s)
                         grid[line.x0, y]++;
                 }
-                if (line.y0 == line.y1)
+                else if (line.y0 == line.y1)
                 {
                     var s = Math.Sign(line.x1 - line.x0);
                     for (var x = line.x0; x != line.x1 + s; x += s)
                         grid[x, line.y0]++;
                 }
+                else if (doDiag)
+                {
+                    var sx = Math.Sign(line.x1 - line.x0);
+                    var sy = Math.Sign(line.y1 - line.y0);
+                    var len = (line.x1 - line.x0) * sx;
+                    for (var l = 0; l != len + 1; l++)
+                        grid[line.x0 + l*sx, line.y0 + l*sy]++;
+
+                }
             }
-            int count = 0;
+
+            Int32 count = 0;
             foreach (var v in grid)
+            {
                 if (v > 1) count++;
+            }
             return count;
         }
 
         public static Int64 Day05b(string[] input)
         {
-            return 0;
+            return Calc(input, true);
         }
 
 
