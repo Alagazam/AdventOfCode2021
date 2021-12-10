@@ -27,7 +27,7 @@ namespace AoC2020
         {
             var lines = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 
-            Assert.Equal(0, Day09.Day09b(lines));
+            Assert.Equal(1134, Day09.Day09b(lines));
         }
 
         public Day09Test(ITestOutputHelper output)
