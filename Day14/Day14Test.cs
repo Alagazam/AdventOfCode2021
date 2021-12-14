@@ -40,7 +40,7 @@ CN -> C";
         {
             var lines = input.Split(Environment.NewLine);
 
-            Assert.Equal(0, Day14.Day14b(lines));
+            Assert.Equal(2188189693529, Day14.Day14b(lines));
         }
 
         public Day14Test(ITestOutputHelper output)
