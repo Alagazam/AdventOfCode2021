@@ -71,12 +71,12 @@ namespace AoC2020
 
         public static Int64 Day15a(string[] input)
         {
-            var grid = new int[input.Length, input[0].Length];
+            var grid = new int[input.Length * 5, input[0].Length * 5];
             int y = 0;
-            foreach(var row in input)
+            foreach (var row in input)
             {
                 int x = 0;
-                foreach(var c in row)
+                foreach (var c in row)
                 {
                     grid[x, y] = c - '0';
                     x++;
@@ -85,11 +85,31 @@ namespace AoC2020
             }
 
             return A_Star(grid);
+            return 0;
         }
 
         public static Int64 Day15b(string[] input)
         {
-            return 0;
+            var xSize = input[0].Length;
+            var ySize = input.Length;
+            var grid = new int[xSize * 5, ySize * 5];
+            int y = 0;
+            foreach (var row in input)
+            {
+                int x = 0;
+                foreach (var c in row)
+                {
+                    foreach (var ytile in Enumerable.Range(0, 5))
+                        foreach (var xtile in Enumerable.Range(0, 5))
+                        {
+                            grid[x + xtile * xSize, y + ytile * ySize] = (c - '1' + xtile + ytile) % 9 + 1 ;
+                        }
+                    x++;
+                }
+                y++;
+            }
+
+            return A_Star(grid);
         }
 
 
