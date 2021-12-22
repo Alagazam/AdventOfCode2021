@@ -71,7 +71,7 @@ namespace AoC2020
 
         public static Int64 Day15a(string[] input)
         {
-            var grid = new int[input.Length * 5, input[0].Length * 5];
+            var grid = new int[input.Length, input[0].Length];
             int y = 0;
             foreach (var row in input)
             {
