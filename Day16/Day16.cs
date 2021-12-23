@@ -8,9 +8,10 @@ namespace AoC2020
 {
     public class Day16
     {
-        public static UInt64 GetBits(string s, uint start, int num)
+        static int Depth = 0;
+        public static Int64 GetBits(string s, int start, int num)
         {
-            UInt64 bits = 0;
+            Int64 bits = 0;
             for (int i = (int)start; i < start + num; i++)
             {
                 int charIndex = i / 4;
@@ -24,9 +25,9 @@ namespace AoC2020
             return bits;
         }
 
-        public static UInt64 DecodeLiteral(string s, ref uint index, ref UInt64 verSum)
+        public static Int64 DecodeLiteral(string s, ref int index, ref Int64 verSum)
         {
-            var value = 0ul;
+            var value = 0l;
             bool last;
             do
             {
@@ -35,70 +36,130 @@ namespace AoC2020
                 value += GetBits(s, index, 4);
                 index += 4;
             } while (!last);
+            //Console.WriteLine("{1} literal {0}", value, new string('\t', Depth));
             return value;
         }
 
-        public static UInt64 DecodeOperator(string s, ref uint index, ref UInt64 verSum)
+        public static string Op(Int64 type)
         {
-            var value = 0ul;
+            switch (type)
+            {
+                case 0:
+                    return "+";
+                case 1:
+                    return "*";
+                case 2:
+                    return "Min";
+                case 3:
+                    return "Max";
+                case 5:
+                    return ">";
+                case 6:
+                    return "<";
+                case 7:
+                    return "==";
+            }
+            return "Unknown";
+
+        }
+        public static Int64 Calc(Int64 type, IEnumerable<Int64> values)
+        {
+            switch (type)
+            {
+            case 0:
+                return values.Sum();
+            case 1:
+                var p = 1l;
+                foreach (var v in values) p = p * v;
+                return p;
+            case 2:
+                return values.Min();
+            case 3:
+                return values.Max();
+            case 5:
+                return (values.First() > values.Last() ? 1 : 0);
+            case 6:
+                return (values.First() < values.Last() ? 1 : 0);
+            case 7:
+                return (values.First() == values.Last() ? 1 : 0);
+            }
+            return 0;
+        }
+
+        public static Int64 DecodeOperator(string s, ref int index, ref Int64 verSum, Int64 type)
+        {
             var lengthTypeId = GetBits(s, index++, 1);
+            var subPackets = new List<Int64>();
             if (lengthTypeId == 0)
             {
                 var length = GetBits(s, index, 15);
                 index += 15;
+                //Console.WriteLine("{1} Op: {0} : {2} bits", Op(type), new string('\t', Depth), length);
                 var start = index;
                 while (index < start + length)
                 {
-                    Decode(s, ref index, ref verSum);
+                    var v = Decode(s, ref index, ref verSum);
+                    subPackets.Add(v);
                 }
             }
             else
             {
                 var packets = GetBits(s, index, 11);
                 index += 11;
+                //Console.WriteLine("{1} Op: {0} : {2} packets", Op(type), new string('\t', Depth), packets);
                 for (uint i = 0; i != packets; i++)
                 {
-                    Decode(s, ref index, ref verSum);
+                    var v = Decode(s, ref index, ref verSum);
+                    subPackets.Add(v);
                 }
             }
+            var value = Calc(type, subPackets);
+
+            //Console.WriteLine("{1} Op: {0} : Res {2}", Op(type), new string('\t', Depth), value);
             return value;
         }
 
-        public static UInt64 Decode(string s, ref uint index, ref UInt64 verSum)
+        public static Int64 Decode(string s, ref int index, ref Int64 verSum)
         {
+            Depth++;
             var ver = GetBits(s, index, 3);
             verSum += ver;
             index += 3;
             var type = GetBits(s, index, 3);
             index += 3;
+            //Console.WriteLine("{2} Ver: {0} : Type {1}", ver, type, new string('\t', Depth));
+            var value = 0l;
             if (type == 4)
             {
-                var value = DecodeLiteral(s, ref index, ref verSum);
+                value = DecodeLiteral(s, ref index, ref verSum);
             }
             else
             {
-                DecodeOperator(s, ref index, ref verSum);
+                value = DecodeOperator(s, ref index, ref verSum, type);
             }
-            return verSum;
+            Depth--;
+            return value;
         }
 
 
-        public static UInt64 Day16a(string[] input)
+        public static Int64 Day16a(string[] input)
         {
-            var sum = 0ul;
-            var index = 0u;
+            var sum = 0l;
+            var index = 0;
             var s = input[0];
-            while (index < s.Length * 4 - 8)
-            {
-                Decode(s, ref index, ref sum);
-            }
+
+            Decode(s, ref index, ref sum);
 
             return sum;
         }
 
         public static Int64 Day16b(string[] input)
         {
-            return 0;
+            var sum = 0l;
+            var index = 0;
+            var s = input[0];
+
+            return Decode(s, ref index, ref sum);
         }
 
 

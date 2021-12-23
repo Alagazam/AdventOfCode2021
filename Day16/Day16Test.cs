@@ -65,13 +65,77 @@ namespace AoC2020
             Assert.Equal(31u, Day16.Day16a(lines));
         }
 
-
         [Fact]
-        public void Day16b()
+        public void Day16b1()
         {
-            //var lines = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            var lines = "C200B40A82".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(3l, Day16.Day16b(lines));
 
-            //Assert.Equal(0, Day16.Day16b(lines));
+            lines = "C2007410".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(2l, Day16.Day16b(lines));
+
+            lines = "C200F40A83504".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(6l, Day16.Day16b(lines));
+        }
+        [Fact]
+        public void Day16b2()
+        {
+            var lines = "04005AC33890".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(54l, Day16.Day16b(lines));
+
+            lines = "C6007410".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(2l, Day16.Day16b(lines));
+
+            lines = "C600F40A83504".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(6l, Day16.Day16b(lines));
+        }
+        [Fact]
+        public void Day16b3()
+        {
+            var lines = "880086C3E88112".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(7l, Day16.Day16b(lines));
+
+            lines = "CA007410".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(2l, Day16.Day16b(lines));
+
+            lines = "CA00F40A83504".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(1l, Day16.Day16b(lines));
+        }
+        [Fact]
+        public void Day16b4()
+        {
+            var lines = "CE00C43D881120".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(9l, Day16.Day16b(lines));
+
+            lines = "CE007410".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(2l, Day16.Day16b(lines));
+
+            lines = "CE00F40A83504".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(3l, Day16.Day16b(lines));
+        }
+        [Fact]
+        public void Day16b5()
+        {
+            var lines = "D8005AC2A8F0".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(1l, Day16.Day16b(lines));
+        }
+        [Fact]
+        public void Day16b6()
+        {
+            var lines = "F600BC2D8F".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(0l, Day16.Day16b(lines));
+        }
+        [Fact]
+        public void Day16b7()
+        {
+            var lines = "9C005AC2F8F0".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(0l, Day16.Day16b(lines));
+        }
+        [Fact]
+        public void Day16b8()
+        {
+            var lines = "9C0141080250320F1802104A08".Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            Assert.Equal(1l, Day16.Day16b(lines));
         }
 
         public Day16Test(ITestOutputHelper output)
